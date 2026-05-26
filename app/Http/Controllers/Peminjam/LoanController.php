@@ -68,13 +68,14 @@ class LoanController extends Controller
         $num  = $last ? (int) substr($last->loan_code, 4) + 1 : 1;
 
         Loan::create([
-            'loan_code' => 'PJM-' . str_pad($num, 5, '0', STR_PAD_LEFT),
-            'member_id' => $member->id,
-            'book_id'   => $book->id,
-            'user_id'   => auth()->id(),
-            'loan_date' => Carbon::today(),
-            'due_date'  => Carbon::today()->addDays(7),
-            'status'    => 'pending_approval', // menunggu konfirmasi petugas
+            'loan_code'   => 'PJM-' . str_pad($num, 5, '0', STR_PAD_LEFT),
+            'member_id'   => $member->id,
+            'book_id'     => $book->id,
+            'user_id'     => auth()->id(),   // peminjam yang request
+            'borrower_id' => auth()->id(),   // simpan sebagai borrower
+            'loan_date'   => Carbon::today(),
+            'due_date'    => Carbon::today()->addDays(7),
+            'status'      => 'pending_approval',
         ]);
 
         // Stok BELUM dikurangi — dikurangi saat petugas konfirmasi

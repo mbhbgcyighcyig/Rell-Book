@@ -51,7 +51,9 @@
         <div class="card h-100">
             <div class="position-relative">
                 @if($book->cover)
-                    <img src="{{ Storage::url($book->cover) }}" class="card-img-top" style="height:180px;object-fit:cover" alt="{{ $book->title }}">
+                    <img src="{{ Storage::url($book->cover) }}" class="card-img-top"
+                         style="height:180px;object-fit:contain;background:#fff;padding:4px"
+                         alt="{{ $book->title }}">
                 @else
                     <div class="d-flex align-items-center justify-content-center bg-light" style="height:180px">
                         <i class="bi bi-book text-muted" style="font-size:3rem"></i>

@@ -42,7 +42,7 @@
             {{-- Cover --}}
             <div class="return-cover" style="background:{{ ['linear-gradient(160deg,#8b5e3c,#c49a6c)','linear-gradient(160deg,#5c8a3c,#8bc34a)','linear-gradient(160deg,#c0392b,#e57373)','linear-gradient(160deg,#1565c0,#64b5f6)','linear-gradient(160deg,#6a1b9a,#ce93d8)','linear-gradient(160deg,#e65100,#ffb74d)','linear-gradient(160deg,#00695c,#4db6ac)','linear-gradient(160deg,#37474f,#90a4ae)'][($loan->book_id-1)%8] }}">
                 @if($loan->book->coverUrl())
-                    <img src="{{ $loan->book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+                    <img src="{{ $loan->book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:3px">
                 @else
                     <i class="bi bi-book-fill text-white" style="font-size:.9rem;opacity:.8;position:relative;z-index:1"></i>
                 @endif
@@ -130,7 +130,7 @@
         <div class="d-flex align-items-center gap-3 px-4 py-3 border-bottom" style="border-color:var(--cream-dark)!important">
             <div class="return-cover" style="background:{{ ['linear-gradient(160deg,#8b5e3c,#c49a6c)','linear-gradient(160deg,#5c8a3c,#8bc34a)','linear-gradient(160deg,#c0392b,#e57373)','linear-gradient(160deg,#1565c0,#64b5f6)','linear-gradient(160deg,#6a1b9a,#ce93d8)','linear-gradient(160deg,#e65100,#ffb74d)','linear-gradient(160deg,#00695c,#4db6ac)','linear-gradient(160deg,#37474f,#90a4ae)'][($loan->book_id-1)%8] }}">
                 @if($loan->book->coverUrl())
-                    <img src="{{ $loan->book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+                    <img src="{{ $loan->book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:3px">
                 @else
                     <i class="bi bi-book-fill text-white" style="font-size:.9rem;opacity:.8;position:relative;z-index:1"></i>
                 @endif

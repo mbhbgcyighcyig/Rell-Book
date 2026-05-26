@@ -27,7 +27,7 @@
                         <div class="review-book-thumb" style="background:{{ ['linear-gradient(160deg,#8b5e3c,#c49a6c)','linear-gradient(160deg,#5c8a3c,#8bc34a)','linear-gradient(160deg,#c0392b,#e57373)','linear-gradient(160deg,#1565c0,#64b5f6)','linear-gradient(160deg,#6a1b9a,#ce93d8)','linear-gradient(160deg,#e65100,#ffb74d)','linear-gradient(160deg,#00695c,#4db6ac)','linear-gradient(160deg,#37474f,#90a4ae)'][($r->book_id-1)%8] }}">
                             <div style="position:absolute;left:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,.2)"></div>
                             @if($r->book->coverUrl())
-                                <img src="{{ $r->book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+                                <img src="{{ $r->book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:2px">
                             @else
                                 <i class="bi bi-book-fill text-white" style="font-size:.9rem;opacity:.8;position:relative;z-index:1"></i>
                             @endif
@@ -46,10 +46,65 @@
                             @endif
                             <div style="font-size:.68rem;color:var(--text-muted);margin-top:.3rem">{{ $r->created_at->diffForHumans() }}</div>
                         </div>
-                        <div class="flex-shrink-0">
-                            <a href="{{ route('peminjam.book.detail', $r->book) }}" class="btn btn-outline-primary btn-sm" style="font-size:.72rem">Edit</a>
+                        <div class="flex-shrink-0 d-flex flex-column gap-1">
+                            <a href="{{ route('peminjam.book.detail', $r->book) }}"
+                               class="btn btn-outline-primary btn-sm" style="font-size:.72rem">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </a>
+                            <form action="{{ route('peminjam.ratings.destroy') }}" method="POST"
+                                  onsubmit="return confirm('Hapus ulasan ini?')">
+                                @csrf @method('DELETE')
+                                <input type="hidden" name="book_id" value="{{ $r->book_id }}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm w-100" style="font-size:.72rem">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+@endif
+
+{{-- Buku yang belum diulas --}}
+@if($unratedBooks->count())
+<div class="card mb-4">
+    <div class="card-header d-flex align-items-center gap-2">
+        <i class="bi bi-star" style="color:#d97706"></i>
+        Belum Diulas
+        <span class="badge ms-1 rounded-pill" style="background:#fef3c7;color:#92400e;font-size:.7rem">{{ $unratedBooks->count() }}</span>
+        <span style="font-size:.75rem;color:var(--text-muted);margin-left:.25rem">— buku yang sudah kamu kembalikan</span>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            @foreach($unratedBooks as $book)
+            <div class="col-md-6">
+                <div class="my-review-card d-flex align-items-center gap-3">
+                    <div class="review-book-thumb" style="background:{{ ['linear-gradient(160deg,#8b5e3c,#c49a6c)','linear-gradient(160deg,#5c8a3c,#8bc34a)','linear-gradient(160deg,#c0392b,#e57373)','linear-gradient(160deg,#1565c0,#64b5f6)','linear-gradient(160deg,#6a1b9a,#ce93d8)','linear-gradient(160deg,#e65100,#ffb74d)','linear-gradient(160deg,#00695c,#4db6ac)','linear-gradient(160deg,#37474f,#90a4ae)'][($book->id-1)%8] }}">
+                        <div style="position:absolute;left:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,.2)"></div>
+                        @if($book->coverUrl())
+                            <img src="{{ $book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:2px">
+                        @else
+                            <i class="bi bi-book-fill text-white" style="font-size:.9rem;opacity:.8;position:relative;z-index:1"></i>
+                        @endif
+                    </div>
+                    <div class="flex-grow-1 min-w-0">
+                        <div class="fw-700 text-truncate" style="font-size:.85rem;color:var(--brown-dark)">{{ $book->title }}</div>
+                        <div style="font-size:.73rem;color:var(--text-muted)">{{ $book->author }}</div>
+                        <div class="d-flex gap-1 mt-1">
+                            @for($i=1;$i<=5;$i++)
+                            <i class="bi bi-star" style="color:var(--cream-dark);font-size:.8rem"></i>
+                            @endfor
+                            <span style="font-size:.7rem;color:var(--text-muted);margin-left:.25rem">Belum diulas</span>
+                        </div>
+                    </div>
+                    <a href="{{ route('peminjam.book.detail', $book) }}"
+                       class="btn btn-primary btn-sm flex-shrink-0" style="font-size:.72rem">
+                        <i class="bi bi-star-fill me-1"></i>Ulas
+                    </a>
                 </div>
             </div>
             @endforeach

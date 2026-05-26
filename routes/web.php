@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -63,6 +64,10 @@ Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
     Route::get('/reports/loans',         [ReportController::class, 'loans'])->name('reports.loans');
     Route::get('/reports/popular-books', [ReportController::class, 'popularBooks'])->name('reports.popular-books');
     Route::get('/reports/fines',         [ReportController::class, 'fines'])->name('reports.fines');
+
+    // Ulasan & Rating
+    Route::get('/ratings',               [RatingController::class, 'index'])->name('ratings.index');
+    Route::delete('/ratings/{rating}',   [RatingController::class, 'destroy'])->name('ratings.destroy');
 });
 
 // ─── Admin + Petugas — Data Petugas di halaman Anggota ───────────────────────

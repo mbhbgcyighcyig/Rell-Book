@@ -14,7 +14,7 @@
         <div class="detail-cover" style="background:{{ ['linear-gradient(160deg,#8b5e3c,#c49a6c)','linear-gradient(160deg,#5c8a3c,#8bc34a)','linear-gradient(160deg,#c0392b,#e57373)','linear-gradient(160deg,#1565c0,#64b5f6)','linear-gradient(160deg,#6a1b9a,#ce93d8)','linear-gradient(160deg,#e65100,#ffb74d)','linear-gradient(160deg,#00695c,#4db6ac)','linear-gradient(160deg,#37474f,#90a4ae)'][($book->id-1)%8] }}">
             @if(!$book->cover)<div class="detail-spine"></div>@endif
             @if($book->cover)
-                <img src="{{ $book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" alt="{{ $book->title }}">
+                <img src="{{ $book->coverUrl() }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff;padding:6px" alt="{{ $book->title }}">
             @else
                 <div class="text-center text-white position-relative" style="z-index:1;padding:1rem">
                     <i class="bi bi-book-fill" style="font-size:3rem;opacity:.8;display:block;margin-bottom:.5rem"></i>
@@ -123,9 +123,11 @@
                 <i class="bi bi-star-fill" style="color:#d97706"></i> Rating & Ulasan
             </div>
             <div class="card-body">
-                @if($hasBorrowed)
+                @if($hasReturned)
+                {{-- User sudah mengembalikan buku → boleh rating --}}
                 <div class="p-3 rounded-3 mb-4" style="background:var(--cream);border:1px solid var(--cream-dark)">
                     <div class="fw-600 mb-2" style="font-size:.85rem;color:var(--brown-dark)">
+                        <i class="bi bi-patch-check-fill me-1" style="color:#5c8a3c"></i>
                         {{ $userRating ? 'Ubah rating kamu' : 'Beri rating untuk buku ini' }}
                     </div>
                     <form action="{{ route('peminjam.ratings.store') }}" method="POST">
@@ -134,9 +136,9 @@
                         <div class="d-flex align-items-center gap-3 mb-3">
                             <div class="d-flex gap-1" id="starPicker">
                                 @for($i=1;$i<=5;$i++)
-                                <span class="star-pick {{ $userRating && $userRating->rating>=$i?'active':'' }}"
+                                <span class="star-pick {{ $userRating && $userRating->rating>=$i ? 'active' : '' }}"
                                       data-val="{{ $i }}" onclick="setRating({{ $i }})">
-                                    <i class="bi bi-star{{ $userRating && $userRating->rating>=$i?'-fill':'' }}"></i>
+                                    <i class="bi bi-star{{ $userRating && $userRating->rating>=$i ? '-fill' : '' }}"></i>
                                 </span>
                                 @endfor
                             </div>
@@ -165,9 +167,38 @@
                         </div>
                     </form>
                 </div>
+
+                @elseif($isBorrowing)
+                {{-- Sedang meminjam → belum bisa rating --}}
+                <div class="p-3 rounded-3 mb-4 d-flex align-items-center gap-3"
+                     style="background:#fffbeb;border:1px solid #fde68a;font-size:.82rem;color:#92400e">
+                    <i class="bi bi-hourglass-split fs-5" style="color:#d97706;flex-shrink:0"></i>
+                    <div>
+                        <div class="fw-600 mb-1">Kamu sedang meminjam buku ini</div>
+                        <div>Kembalikan buku terlebih dahulu untuk bisa memberi rating & ulasan.</div>
+                    </div>
+                </div>
+
+                @elseif($isPending)
+                {{-- Menunggu persetujuan --}}
+                <div class="p-3 rounded-3 mb-4 d-flex align-items-center gap-3"
+                     style="background:#eff6ff;border:1px solid #bfdbfe;font-size:.82rem;color:#1e40af">
+                    <i class="bi bi-clock-history fs-5" style="color:#3b82f6;flex-shrink:0"></i>
+                    <div>
+                        <div class="fw-600 mb-1">Permintaan pinjam sedang diproses</div>
+                        <div>Rating tersedia setelah buku dikembalikan.</div>
+                    </div>
+                </div>
+
                 @else
-                <div class="p-3 rounded-3 mb-4 text-center" style="background:var(--cream);border:1px dashed var(--cream-dark);font-size:.82rem;color:var(--text-muted)">
-                    <i class="bi bi-lock me-1"></i>Rating tersedia setelah kamu meminjam & mengembalikan buku ini.
+                {{-- Belum pernah meminjam --}}
+                <div class="p-3 rounded-3 mb-4 d-flex align-items-center gap-3"
+                     style="background:var(--cream);border:1px dashed var(--cream-dark);font-size:.82rem;color:var(--text-muted)">
+                    <i class="bi bi-lock fs-5" style="flex-shrink:0"></i>
+                    <div>
+                        <div class="fw-600 mb-1" style="color:var(--brown-dark)">Belum bisa memberi rating</div>
+                        <div>Pinjam dan kembalikan buku ini terlebih dahulu untuk bisa memberi rating & ulasan.</div>
+                    </div>
                 </div>
                 @endif
 

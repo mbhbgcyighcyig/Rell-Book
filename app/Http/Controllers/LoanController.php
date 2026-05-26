@@ -127,8 +127,9 @@ class LoanController extends Controller
         }
 
         $data['loan_code'] = Loan::generateCode();
-        $data['user_id'] = auth()->id();
-        $data['status'] = 'borrowed';
+        $data['user_id']    = auth()->id();
+        $data['borrower_id'] = optional($member->user())->id; // user akun peminjam
+        $data['status']     = 'borrowed';
 
         Loan::create($data);
         $book->decrement('stock');

@@ -354,6 +354,10 @@
            class="p-nav-link {{ request()->routeIs('peminjam.dashboard') ? 'active' : '' }}">
             <i class="bi bi-house-fill"></i> Beranda
         </a>
+          <a href="{{ route('peminjam.about') }}"
+           class="p-nav-link {{ request()->routeIs('peminjam.about') ? 'active' : '' }}">
+            <i class="bi bi-info-circle-fill"></i> Tentang
+        </a>
         <a href="{{ route('peminjam.books') }}"
            class="p-nav-link {{ request()->routeIs('peminjam.books') || request()->routeIs('peminjam.book.detail') ? 'active' : '' }}">
             <i class="bi bi-book-fill"></i> Katalog
@@ -373,10 +377,6 @@
         <a href="{{ route('peminjam.ulasan.index') }}"
            class="p-nav-link {{ request()->routeIs('peminjam.ulasan.index') ? 'active' : '' }}">
             <i class="bi bi-star-fill"></i> Ulasan
-        </a>
-        <a href="{{ route('peminjam.about') }}"
-           class="p-nav-link {{ request()->routeIs('peminjam.about') ? 'active' : '' }}">
-            <i class="bi bi-info-circle-fill"></i> Tentang
         </a>
     </div>
 
@@ -448,9 +448,294 @@
     </div>
 </div>
 
-<div class="p-footer">
-    &copy; {{ date('Y') }} <span>Rell-Book Digital</span> — Sistem Manajemen Perpustakaan
-</div>
+{{-- ── FOOTER ── --}}
+<footer class="p-footer">
+    <div class="footer-main">
+        <div class="footer-container">
+
+            {{-- Kolom 1: Brand --}}
+            <div class="footer-col footer-brand">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <img src="{{ asset('images/pipi.png') }}" alt="Logo">
+                    </div>
+                    <div>
+                        <div class="footer-logo-name">Rell-Book</div>
+                        <div class="footer-logo-sub">Digital Library</div>
+                    </div>
+                </div>
+                <p class="footer-desc">
+                    Platform perpustakaan digital terpercaya. Temukan ribuan buku dan berbagai genre dari penulis terbaik Indonesia dan dunia.
+                </p>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social-btn"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="footer-social-btn"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="footer-social-btn"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="footer-social-btn"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+
+            {{-- Kolom 2: Navigasi --}}
+            <div class="footer-col">
+                <div class="footer-col-title">Navigasi</div>
+                <ul class="footer-links">
+                    <li><a href="{{ route('peminjam.books') }}"><i class="bi bi-chevron-right"></i> Katalog Buku</a></li>
+                    <li><a href="{{ route('peminjam.loans') }}"><i class="bi bi-chevron-right"></i> Riwayat Peminjaman</a></li>
+                    <li><a href="{{ route('peminjam.ulasan.index') }}"><i class="bi bi-chevron-right"></i> Ulasan Buku</a></li>
+                    <li><a href="{{ route('peminjam.returns.index') }}"><i class="bi bi-chevron-right"></i> Pengembalian</a></li>
+                    <li><a href="{{ route('peminjam.about') }}"><i class="bi bi-chevron-right"></i> Tentang Kami</a></li>
+                </ul>
+            </div>
+
+            {{-- Kolom 3: Bantuan --}}
+            <div class="footer-col">
+                <div class="footer-col-title">Bantuan</div>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="bi bi-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#"><i class="bi bi-chevron-right"></i> Cara Meminjam</a></li>
+                    <li><a href="#"><i class="bi bi-chevron-right"></i> Kebijakan Privasi</a></li>
+                    <li><a href="#"><i class="bi bi-chevron-right"></i> Syarat & Ketentuan</a></li>
+                </ul>
+            </div>
+
+            {{-- Kolom 4: Hubungi Kami --}}
+            <div class="footer-col">
+                <div class="footer-col-title">Hubungi Kami</div>
+                <ul class="footer-contacts">
+                    <li>
+                        <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+                        <span>perpusbuku@email.com</span>
+                    </li>
+                    <li>
+                        <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+                        <span>(021) 1234-5678</span>
+                    </li>
+                    <li>
+                        <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                        <span>Jl. Perpustakaan No.1, Jakarta Pusat, 10110</span>
+                    </li>
+                    <li>
+                        <div class="contact-icon"><i class="bi bi-clock-fill"></i></div>
+                        <span>Senin – Jumat, 08.00 – 17.00 WIB</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+<style>
+/* ── FOOTER ── */
+.p-footer {
+    position: relative;
+    z-index: 1;
+    margin-top: 4rem;
+    background: none;
+    padding: 0;
+    text-align: left;
+    color: inherit;
+}
+
+.footer-main {
+    background: linear-gradient(135deg, #3d2008 0%, #5c3010 40%, #7a4520 100%);
+    padding: 3.5rem 0 2.5rem;
+}
+
+.footer-container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.footer-main .footer-container {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+    gap: 3rem;
+}
+
+/* Brand */
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: 1rem;
+}
+
+.footer-logo-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,.15);
+}
+
+.footer-logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.footer-logo-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #f5d5a8;
+    line-height: 1.2;
+}
+
+.footer-logo-sub {
+    font-size: .72rem;
+    color: rgba(255,255,255,.45);
+    font-style: italic;
+    letter-spacing: .04em;
+}
+
+.footer-desc {
+    font-size: .8rem;
+    color: rgba(255,255,255,.55);
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+}
+
+.footer-socials {
+    display: flex;
+    gap: .6rem;
+}
+
+.footer-social-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,.6);
+    font-size: .9rem;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.footer-social-btn:hover {
+    background: rgba(230,165,109,.3);
+    border-color: rgba(230,165,109,.5);
+    color: #f5d5a8;
+    transform: translateY(-2px);
+}
+
+/* Kolom judul */
+.footer-col-title {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #f5d5a8;
+    margin-bottom: 1.1rem;
+}
+
+/* Links */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .55rem;
+}
+
+.footer-links a {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    color: rgba(255,255,255,.55);
+    text-decoration: none;
+    font-size: .8rem;
+    transition: .18s;
+}
+
+.footer-links a i {
+    font-size: .6rem;
+    color: rgba(230,165,109,.6);
+    transition: .18s;
+}
+
+.footer-links a:hover {
+    color: #f5d5a8;
+    padding-left: 4px;
+}
+
+.footer-links a:hover i {
+    color: #e6a56d;
+}
+
+/* Contacts */
+.footer-contacts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+}
+
+.footer-contacts li {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+}
+
+.contact-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: rgba(230,165,109,.2);
+    border: 1px solid rgba(230,165,109,.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e6a56d;
+    font-size: .8rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.footer-contacts span {
+    font-size: .78rem;
+    color: rgba(255,255,255,.55);
+    line-height: 1.5;
+}
+
+/* Bottom bar */
+.footer-bottom {
+    background: rgba(0,0,0,.25);
+    padding: .9rem 0;
+    font-size: .72rem;
+    color: rgba(255,255,255,.35);
+}
+
+.footer-bottom strong {
+    color: rgba(255,255,255,.6);
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+    .footer-main .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+    .footer-brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 560px) {
+    .footer-main .footer-container {
+        grid-template-columns: 1fr;
+    }
+    .footer-brand { grid-column: auto; }
+}
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @stack('scripts')

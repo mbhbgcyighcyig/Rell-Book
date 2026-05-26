@@ -39,16 +39,33 @@ class BookController extends Controller
     {
         $book->load(['category', 'ratings.user']);
 
-        $userRating   = $book->ratings()->where('user_id', auth()->id())->first();
-        $avgRating    = $book->averageRating();
-        $ratingCount  = $book->ratingCount();
+        $userRating  = $book->ratings()->where('user_id', auth()->id())->first();
+        $avgRating   = $book->averageRating();
+        $ratingCount = $book->ratingCount();
 
-        // Cek apakah user pernah meminjam buku ini
-        $hasBorrowed = \App\Models\Loan::where('user_id', auth()->id())
+        $userId = auth()->id();
+
+        // Sudah pernah mengembalikan buku ini → boleh rating
+        $hasReturned = \App\Models\Loan::where('borrower_id', $userId)
             ->where('book_id', $book->id)
             ->where('status', 'returned')
             ->exists();
 
-        return view('peminjam.book-detail', compact('book', 'userRating', 'avgRating', 'ratingCount', 'hasBorrowed'));
+        // Sedang meminjam (belum dikembalikan)
+        $isBorrowing = \App\Models\Loan::where('borrower_id', $userId)
+            ->where('book_id', $book->id)
+            ->whereIn('status', ['borrowed', 'overdue'])
+            ->exists();
+
+        // Sedang menunggu persetujuan
+        $isPending = \App\Models\Loan::where('borrower_id', $userId)
+            ->where('book_id', $book->id)
+            ->where('status', 'pending_approval')
+            ->exists();
+
+        return view('peminjam.book-detail', compact(
+            'book', 'userRating', 'avgRating', 'ratingCount',
+            'hasReturned', 'isBorrowing', 'isPending'
+        ));
     }
 }

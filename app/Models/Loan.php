@@ -8,7 +8,7 @@ use Carbon\Carbon;
 class Loan extends Model
 {
     protected $fillable = [
-        'loan_code', 'member_id', 'book_id', 'user_id',
+        'loan_code', 'member_id', 'book_id', 'user_id', 'borrower_id',
         'loan_date', 'due_date', 'return_date', 'status',
         'fine_days', 'fine_amount', 'fine_paid', 'notes',
     ];
