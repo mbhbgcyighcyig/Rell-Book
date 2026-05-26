@@ -512,10 +512,6 @@ body {
         Koneksi aman &bull; Sesi terenkripsi &bull; Akses dicatat
     </div>
 
-    <a href="{{ route('login') }}" class="back-link">
-        <i class="bi bi-arrow-left"></i> Kembali ke login umum
-    </a>
-
 </div>
 
 <script>

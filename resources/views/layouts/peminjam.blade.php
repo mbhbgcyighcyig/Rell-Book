@@ -468,10 +468,10 @@
                     Platform perpustakaan digital terpercaya. Temukan ribuan buku dan berbagai genre dari penulis terbaik Indonesia dan dunia.
                 </p>
                 <div class="footer-socials">
-                    <a href="#" class="footer-social-btn"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="footer-social-btn"><i class="bi bi-instagram"></i></a>
+                    <a href="https://wa.me/6288210017728" class="footer-social-btn"><i class="bi bi-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/alfreandraa?igsh=Y3c3NmUycDZ5dm93" class="footer-social-btn"><i class="bi bi-instagram"></i></a>
                     <a href="#" class="footer-social-btn"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="footer-social-btn"><i class="bi bi-youtube"></i></a>
+                    <a href="https://youtube.com/@muhamadfarel5962?si=3EQXkWg2w5mdnmH2" class="footer-social-btn"><i class="bi bi-youtube"></i></a>
                 </div>
             </div>
 
@@ -494,7 +494,7 @@
                     <li><a href="#"><i class="bi bi-chevron-right"></i> FAQ</a></li>
                     <li><a href="#"><i class="bi bi-chevron-right"></i> Cara Meminjam</a></li>
                     <li><a href="#"><i class="bi bi-chevron-right"></i> Kebijakan Privasi</a></li>
-                    <li><a href="#"><i class="bi bi-chevron-right"></i> Syarat & Ketentuan</a></li>
+                    <li><a href="about"><i class="bi bi-chevron-right"></i> Syarat & Ketentuan</a></li>
                 </ul>
             </div>
 
@@ -504,15 +504,15 @@
                 <ul class="footer-contacts">
                     <li>
                         <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
-                        <span>perpusbuku@email.com</span>
+                        <span>relbook@gmail.com</span>
                     </li>
                     <li>
                         <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
-                        <span>(021) 1234-5678</span>
+                        <span>088210017728</span>
                     </li>
                     <li>
                         <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
-                        <span>Jl. Perpustakaan No.1, Jakarta Pusat, 10110</span>
+                        <span>Jl. Raya Kedep RT02/RW22</span>
                     </li>
                     <li>
                         <div class="contact-icon"><i class="bi bi-clock-fill"></i></div>

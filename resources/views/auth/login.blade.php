@@ -388,13 +388,6 @@ body {
                 Belum Punya Akun Yaaa? <a href="{{ route('register') }}">Registrasi Mari</a>
             </div>
 
-            <div style="text-align:center;margin-top:12px">
-                <a href="{{ route('admin.login') }}"
-                   style="font-size:.72rem;color:#aaa;text-decoration:none;display:inline-flex;align-items:center;gap:4px">
-                    <i class="bi bi-shield-lock" style="font-size:.8rem"></i> Login sebagai Administrator
-                </a>
-            </div>
-
         </div>
     </div>
 
