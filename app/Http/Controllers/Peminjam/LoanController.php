@@ -32,6 +32,11 @@ class LoanController extends Controller
     {
         $request->validate(['book_id' => 'required|exists:books,id']);
 
+        // Admin dan petugas tidak bisa meminjam buku
+        if (auth()->user()->isStaff()) {
+            return back()->with('error', 'Admin dan petugas tidak dapat meminjam buku.');
+        }
+
         $member = auth()->user()->member;
         $book   = Book::findOrFail($request->book_id);
 

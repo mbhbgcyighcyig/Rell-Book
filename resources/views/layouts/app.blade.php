@@ -580,6 +580,7 @@
         </a>
 
         <div class="sb-section">Laporan</div>
+        @if(auth()->user()->isAdmin())
         <a href="{{ route('reports.loans') }}"
            class="sb-link {{ request()->routeIs('reports.loans') ? 'active' : '' }}">
             <i class="bi bi-bar-chart-line-fill"></i> Lap. Peminjaman
@@ -596,6 +597,7 @@
            class="sb-link {{ request()->routeIs('ratings.*') ? 'active' : '' }}">
             <i class="bi bi-star-fill"></i> Ulasan & Rating
         </a>
+        @endif
 
         @if(auth()->user()->isAdmin())
         <div class="sb-section">Pengaturan</div>
@@ -621,7 +623,7 @@
                 <div class="sb-user-name text-truncate">{{ auth()->user()->name }}</div>
                 <div class="sb-user-role">{{ auth()->user()->role }}</div>
             </div>
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ auth()->user()->isAdmin() ? route('admin.logout') : route('petugas.logout') }}" method="POST">
                 @csrf
                 <button class="btn btn-sm p-1" style="color:rgba(212,168,67,.5)" title="Logout">
                     <i class="bi bi-box-arrow-right" style="font-size:1.1rem"></i>
@@ -677,7 +679,7 @@
                     </li>
                     <li><hr class="dropdown-divider my-1"></li>
                     <li>
-                        <form action="{{ route('logout') }}" method="POST">
+                        <form action="{{ auth()->user()->isAdmin() ? route('admin.logout') : route('petugas.logout') }}" method="POST">
                             @csrf
                             <button class="dropdown-item d-flex align-items-center gap-2 text-danger">
                                 <i class="bi bi-box-arrow-right"></i> Logout

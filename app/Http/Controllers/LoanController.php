@@ -84,7 +84,10 @@ class LoanController extends Controller
 
     public function create()
     {
-        if (auth()->user()->isAdmin()) abort(403, 'Admin tidak bisa meminjam buku.');
+        // Admin tidak bisa input peminjaman manual
+        if (auth()->user()->isAdmin()) {
+            abort(403, 'Admin tidak bisa input peminjaman. Gunakan konfirmasi request dari peminjam.');
+        }
 
         $members = Member::where('status', 'active')->get();
         $books = Book::where('stock', '>', 0)->get();
@@ -93,7 +96,10 @@ class LoanController extends Controller
 
     public function store(Request $request)
     {
-        if (auth()->user()->isAdmin()) abort(403, 'Admin tidak bisa meminjam buku.');
+        // Admin tidak bisa input peminjaman manual
+        if (auth()->user()->isAdmin()) {
+            abort(403, 'Admin tidak bisa input peminjaman.');
+        }
         $data = $request->validate([
             'member_id' => 'required|exists:members,id',
             'book_id'   => 'required|exists:books,id',

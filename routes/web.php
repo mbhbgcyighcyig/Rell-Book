@@ -9,6 +9,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\PetugasLoginController;
 use App\Http\Controllers\Peminjam\DashboardController as PeminjamDashboard;
 use App\Http\Controllers\Peminjam\BookController as PeminjamBook;
 use App\Http\Controllers\Peminjam\LoanController as PeminjamLoan;
@@ -21,11 +22,18 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-// ─── Admin Login Khusus ────────────────────────────────────────────────────────
+// ─── Admin Login ──────────────────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login',  [AdminLoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AdminLoginController::class, 'login'])->name('login.post');
     Route::post('/logout',[AdminLoginController::class, 'logout'])->name('logout');
+});
+
+// ─── Petugas Login ────────────────────────────────────────────────────────────
+Route::prefix('petugas')->name('petugas.')->group(function () {
+    Route::get('/login',  [PetugasLoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [PetugasLoginController::class, 'login'])->name('login.post');
+    Route::post('/logout',[PetugasLoginController::class, 'logout'])->name('logout');
 });
 
 Route::get('/', function () {
@@ -37,13 +45,15 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// ─── Staff Routes (admin + petugas) ───────────────────────────────────────────
+// ─── Admin + Petugas — Shared Routes ─────────────────────────────────────────
 Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    // Koleksi — petugas bisa lihat & tambah, tapi tidak hapus (dikontrol di controller)
     Route::resource('books', BookController::class);
     Route::resource('categories', CategoryController::class)->except(['show', 'create', 'edit']);
 
+    // Sirkulasi — akses penuh untuk petugas
     Route::get('/loans',                    [LoanController::class, 'index'])->name('loans.index');
     Route::get('/loans/create',             [LoanController::class, 'create'])->name('loans.create');
     Route::post('/loans',                   [LoanController::class, 'store'])->name('loans.store');
@@ -55,28 +65,28 @@ Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
     Route::get('/loans/{loan}/nota',        [LoanController::class, 'notaLoan'])->name('loans.nota');
     Route::get('/loans/{loan}',             [LoanController::class, 'show'])->name('loans.show');
 
-    // Return Requests dari peminjam
+    // Pengembalian
     Route::get('/return-requests',                          [StaffReturn::class, 'index'])->name('returns.staff.index');
     Route::patch('/return-requests/{returnRequest}/confirm',[StaffReturn::class, 'confirm'])->name('returns.staff.confirm');
     Route::patch('/return-requests/{returnRequest}/reject', [StaffReturn::class, 'reject'])->name('returns.staff.reject');
 
-    Route::get('/reports',               [ReportController::class, 'index'])->name('reports.index');
-    Route::get('/reports/loans',         [ReportController::class, 'loans'])->name('reports.loans');
-    Route::get('/reports/popular-books', [ReportController::class, 'popularBooks'])->name('reports.popular-books');
-    Route::get('/reports/fines',         [ReportController::class, 'fines'])->name('reports.fines');
-
-    // Ulasan & Rating
-    Route::get('/ratings',               [RatingController::class, 'index'])->name('ratings.index');
-    Route::delete('/ratings/{rating}',   [RatingController::class, 'destroy'])->name('ratings.destroy');
-});
-
-// ─── Admin + Petugas — Data Petugas di halaman Anggota ───────────────────────
-Route::middleware(['auth', 'role:admin,petugas'])->group(function () {
+    // Anggota
     Route::resource('members', MemberController::class);
 });
 
 // ─── Admin Only ────────────────────────────────────────────────────────────────
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Laporan — hanya admin
+    Route::get('/reports',               [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/loans',         [ReportController::class, 'loans'])->name('reports.loans');
+    Route::get('/reports/popular-books', [ReportController::class, 'popularBooks'])->name('reports.popular-books');
+    Route::get('/reports/fines',         [ReportController::class, 'fines'])->name('reports.fines');
+
+    // Ulasan & Rating — hanya admin
+    Route::get('/ratings',               [RatingController::class, 'index'])->name('ratings.index');
+    Route::delete('/ratings/{rating}',   [RatingController::class, 'destroy'])->name('ratings.destroy');
+
+    // Manajemen User — hanya admin
     Route::get('/users',              [UserController::class, 'index'])->name('users.index');
     Route::delete('/users/{user}',    [UserController::class, 'destroy'])->name('users.destroy');
 });
